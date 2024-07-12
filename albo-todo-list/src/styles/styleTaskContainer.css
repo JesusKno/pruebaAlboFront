@@ -1,0 +1,20 @@
+.main-container{
+    width: 100%;
+    display: flex;
+    align-content: center;
+    background-color: grey;
+    justify-content: center;
+   
+}
+
+.box1{
+   margin-left: 2px;
+   position: relative;
+}
+
+.box2{
+
+    margin-left: 2px;
+   
+    
+}
