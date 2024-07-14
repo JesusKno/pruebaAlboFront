@@ -1,25 +1,29 @@
 import React, {useState} from 'react'
+import { useTakModalChangeContext } from '../TaskModalProvider';
 import {useForm} from "react-hook-form"
+import Snackbar from '@mui/material/Snackbar';
+import Alert from '@mui/material/Alert';
 import '../styles/styleTaskForm.css'
-import Button from '@mui/material/Button';
 export const TaskForm = ({list}) => {
     const {register, handleSubmit} = useForm()
-    const [loading, setLoading] = useState(false)
+    const [open, setOpen] = useState(false)
+    const closeModal = useTakModalChangeContext()
+    console.log(list)
     const onSubmit = (data, e) =>{
         const body = JSON.stringify(data)
         console.log('Body desde el formulario para editar', body);
         const id = list._id
         console.log('Revisa el id desde el formulario para editar', id);
         const requestOptions = {
-            method: "POST",
+            method: "PUT",
             headers: {
                 'Content-Type': 'application/json;charset=utf-8'
               },
             body: JSON.stringify(data)
         };
-     /*    try {
-                setLoading(true)
-                fetch("http://localhost:3001/admin/nuevo/producto", requestOptions)
+        try {
+                
+                fetch(`http://localhost:3001/update/task/${id}`, requestOptions)
                 .then(response => response.json())
                 .catch(error => console.error('Error', error))
                 .then(result => console.log(result))
@@ -28,9 +32,12 @@ export const TaskForm = ({list}) => {
         } catch (error) {
             console.log('Error', error);
         }finally{
-            setLoading(false)
-            e.target.reset()
-        } */
+            setOpen(true)
+            setTimeout(()=>{
+                closeModal()
+                e.target.reset()
+            }, 4000)
+        }
     }
     return(
         <>
@@ -40,30 +47,41 @@ export const TaskForm = ({list}) => {
                         <h1 className="title-form">Estatus: {!list.taskComplete ? 'Incompleta': 'Completa'}</h1>
                         <div className="inputContainer">
                             <input type="text" className="inputText" defaultValue={list.taskName}  {...register('taskName', { required: true})}/>
+                            <label className="label">Nombre de la tarea</label>
+                        </div>
+                        <div className="inputContainer">
+                            <input type="text" className="inputText" defaultValue={list.taskDescription}  {...register('taskDescription', { required: true})}/>
                             <label className="label">Descripcion</label>
                         </div>
                         <div className="inputContainer">
-                            <input type="text" className="inputText" defaultValue={list.taskDescription}  {...register('codigoProducto', { required: true})}/>
-                            <label className="label">Descripcion</label>
-                        </div>
-                        <div className="inputContainer">
-                            <input type="date" className="inputText" defaultValue={list.startDate} {...register('nombreProducto', { required: true})}/>
+                            <input type="date" className="inputText" defaultValue={list.startDate} {...register('startDate', { required: true})}/>
                             <label className="label">Fecha inicio</label>
                         </div>
                         <div className="inputContainer">
-                            <input type="date" className="inputText" defaultValue={list.endDate} {...register('descripcionProducto')}/>
+                            <input type="date" className="inputText" defaultValue={list.endDate} {...register('endDate')}/>
                             <label className="label">Fecha final</label>
                         </div>
                         <div className="inputContainer">
-                            <input type="text" className="inputText" defaultValue={list.responsiblePersonEmail} {...register('costoProducto')} />
+                            <input type="text" className="inputText" defaultValue={list.responsiblePersonEmail} {...register('responsiblePersonEmail')} />
                             <label className="label">Responsable</label>
                         </div>
                        
                         <p>{!list.taskComplete ? 'Incompleta': 'Completa'}</p>
 
-                        <input type="submit" className="submitButton" value="Registrar"/>
+                        <input type="submit" className="submitButton" value="Guardar"/>
                     </form>
                 </div>
+                <Snackbar
+                    anchorOrigin={{vertical: 'bottom', horizontal:'center'}}
+                    open={open}
+                    autoHideDuration={1000}
+                      
+                >
+                    <Alert variant="filled" severity="success" sx={{width: 'auto', fontSize: '14px'}}>
+                        Tarea modificada correctamente.
+                    </Alert>
+                </Snackbar>
+                
         
       
     </>

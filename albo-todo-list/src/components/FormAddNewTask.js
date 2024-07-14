@@ -4,11 +4,10 @@ import {useForm} from "react-hook-form"
 import '../styles/styleTaskForm.css'
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
-export const FormAddNewTask = ({list}) => {
+export const FormAddNewTask = () => {
     const {register, handleSubmit} = useForm()
     const [open, setOpen] = useState(false)
     const closeModal = useTakModalChangeContext()
-    console.log(list);
     const onSubmit = (data, e) =>{
         const body = JSON.stringify(data)
         console.log('Body desde el a2gregar data', body);
@@ -66,14 +65,13 @@ export const FormAddNewTask = ({list}) => {
                             <input type="text" className="inputText"  {...register('responsiblePersonEmail')} />
                             <label className="label">Responsable</label>
                         </div>
-                        <input type="submit" className="submitButton" value="Registrar"/>
+                        <input type="submit" className="submitButton" value="Guardar"/>
                     </form>
                 </div>
                 <Snackbar
                     anchorOrigin={{vertical: 'bottom', horizontal:'center'}}
                     open={open}
-                    autoHideDuration={5000}
-                      
+                         
                 >
                     <Alert variant="filled" severity="success" sx={{width: 'auto', fontSize: '14px'}}>
                         Tarea agregada correctamente.
