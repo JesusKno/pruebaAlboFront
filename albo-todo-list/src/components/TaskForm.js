@@ -8,7 +8,9 @@ export const TaskForm = ({list}) => {
     console.log(list);
     const onSubmit = (data, e) =>{
         const body = JSON.stringify(data)
-        console.log('Body', body);
+        console.log('Body desde el formulario para editar', body);
+        const id = list._id
+        console.log('Revisa el id desde el formulario para editar', id);
         const requestOptions = {
             method: "POST",
             headers: {
@@ -16,7 +18,7 @@ export const TaskForm = ({list}) => {
               },
             body: JSON.stringify(data)
         };
-        try {
+     /*    try {
                 setLoading(true)
                 fetch("http://localhost:3001/admin/nuevo/producto", requestOptions)
                 .then(response => response.json())
@@ -29,7 +31,7 @@ export const TaskForm = ({list}) => {
         }finally{
             setLoading(false)
             e.target.reset()
-        }
+        } */
     }
     return(
         <>

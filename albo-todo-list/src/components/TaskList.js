@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from 'react'
+import { useTaskModalContex } from '../TaskModalProvider';
 import '../styles/taskList.css'
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
@@ -12,6 +13,7 @@ export const TaskList = () => {
     const [toDoList, setToDoList] = useState([])
     const [openModal, setOpenModal] = useState(false)
     const [listData, setListData] = useState([])
+    const modalState = useTaskModalContex()
     const handleOpenModal = (data) =>{
        
         setListData(data)
@@ -25,7 +27,7 @@ export const TaskList = () => {
         fetch('http://localhost:3001/task/list')
         .then((response)=> response.json())
         .then((json)=> setToDoList(json))
-    }, [])
+    }, [toDoList])
   return (
     <div>
     {

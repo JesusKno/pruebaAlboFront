@@ -1,24 +1,22 @@
-import React, {useState} from 'react'
+import React  from 'react'
+import { useTaskModalContex, useTakModalChangeContext } from '../TaskModalProvider';
 import '../styles/taskList.css'
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import { FormAddNewTask } from './FormAddNewTask';
 
 export const AddNewTaskContainer = () => {
-    const [openModal, setOpenModal] = useState(false)
-    const handleOpenModal = (data) =>{
-       
-        setOpenModal(true)
-    }
-    const handleClose = () =>{
-        setOpenModal(false)
-    }
+
+  const openModal = useTaskModalContex()
+
+  const handleOpenModal =  useTakModalChangeContext()
+
   return (
     <>
         <button className='button-detalle' onClick={handleOpenModal}>Agregar Nueva tarea</button>
         <Modal
              open={openModal}
-             onClose={handleClose}
+             onClose={handleOpenModal}
              className='modal'
                        
         >

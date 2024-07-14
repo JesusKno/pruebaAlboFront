@@ -1,9 +1,13 @@
 import React, {useState} from 'react'
+import { useTakModalChangeContext } from '../TaskModalProvider';
 import {useForm} from "react-hook-form"
 import '../styles/styleTaskForm.css'
+import Snackbar from '@mui/material/Snackbar';
+import Alert from '@mui/material/Alert';
 export const FormAddNewTask = ({list}) => {
     const {register, handleSubmit} = useForm()
-    const [loading, setLoading] = useState(false)
+    const [open, setOpen] = useState(false)
+    const closeModal = useTakModalChangeContext()
     console.log(list);
     const onSubmit = (data, e) =>{
         const body = JSON.stringify(data)
@@ -15,9 +19,9 @@ export const FormAddNewTask = ({list}) => {
               },
             body: JSON.stringify(data)
         };
-       /*  try {
-                setLoading(true)
-                fetch("http://localhost:3001/admin/nuevo/producto", requestOptions)
+       try {
+                
+                fetch("http://localhost:3001/new/task", requestOptions)
                 .then(response => response.json())
                 .catch(error => console.error('Error', error))
                 .then(result => console.log(result))
@@ -26,9 +30,15 @@ export const FormAddNewTask = ({list}) => {
         } catch (error) {
             console.log('Error', error);
         }finally{
-            setLoading(false)
-            e.target.reset()
-        } */
+            setOpen(true)
+            setTimeout(()=>{
+                closeModal()
+                e.target.reset()
+                setOpen(true)
+            }, 4000)
+          
+            
+        }
     }
     return(
         <>
@@ -59,7 +69,16 @@ export const FormAddNewTask = ({list}) => {
                         <input type="submit" className="submitButton" value="Registrar"/>
                     </form>
                 </div>
-        
+                <Snackbar
+                    anchorOrigin={{vertical: 'bottom', horizontal:'center'}}
+                    open={open}
+                    autoHideDuration={5000}
+                      
+                >
+                    <Alert variant="filled" severity="success" sx={{width: 'auto', fontSize: '14px'}}>
+                        Tarea agregada correctamente.
+                    </Alert>
+                </Snackbar>
       
     </>
       
