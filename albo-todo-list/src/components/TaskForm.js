@@ -5,7 +5,6 @@ import Button from '@mui/material/Button';
 export const TaskForm = ({list}) => {
     const {register, handleSubmit} = useForm()
     const [loading, setLoading] = useState(false)
-    console.log(list);
     const onSubmit = (data, e) =>{
         const body = JSON.stringify(data)
         console.log('Body desde el formulario para editar', body);
@@ -38,7 +37,11 @@ export const TaskForm = ({list}) => {
      
                 <div className="registerForm">
                     <form className="form" onSubmit={handleSubmit(onSubmit)}>
-                        <h1 className="title-form">{list.taskName}</h1>
+                        <h1 className="title-form">Estatus: {!list.taskComplete ? 'Incompleta': 'Completa'}</h1>
+                        <div className="inputContainer">
+                            <input type="text" className="inputText" defaultValue={list.taskName}  {...register('taskName', { required: true})}/>
+                            <label className="label">Descripcion</label>
+                        </div>
                         <div className="inputContainer">
                             <input type="text" className="inputText" defaultValue={list.taskDescription}  {...register('codigoProducto', { required: true})}/>
                             <label className="label">Descripcion</label>
@@ -55,6 +58,9 @@ export const TaskForm = ({list}) => {
                             <input type="text" className="inputText" defaultValue={list.responsiblePersonEmail} {...register('costoProducto')} />
                             <label className="label">Responsable</label>
                         </div>
+                       
+                        <p>{!list.taskComplete ? 'Incompleta': 'Completa'}</p>
+
                         <input type="submit" className="submitButton" value="Registrar"/>
                     </form>
                 </div>
