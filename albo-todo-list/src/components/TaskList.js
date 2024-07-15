@@ -62,23 +62,33 @@ export const TaskList = () => {
     }
 
     useEffect(()=>{
-        fetch('http://localhost:3001/task/list')
-        .then((response)=> response.json())
-        .then((json)=> setToDoList(json))
+       const getListTask = async()=>{
+            try {
+                const res = await fetch('http://localhost:3001/task/list')
+                const data = await res.json()
+                setToDoList(data)
+            } catch (error) {
+                console.log(error);
+            }
+       };
+       getListTask()
     }, [toDoList])
   return (
     <>
         <div><button id='3'  onClick={(e) => handleClick(e)}>Nueva Tarea</button></div>
             <div className="task-list">
                 {
-                    toDoList.map((list, i) => 
-                        <div key={i} className="task-item">
-                            <span >{list.taskName} <p>Estatus: {list.taskComplete ? 'Completa' : 'Incompleta'}</p> </span>      
-                            <button id='1'  onClick={(e) => handleClick(e, list)}>Detalle</button>                          
-                            <button id='2'  onClick={(e) => handleClick(e, list)}>Eliminar</button>
-                            {!list.taskComplete ? <button id='2'  onClick={() => handleClickCompleteTask(list)}>Completar</button>: <></>}
-                        </div>           
-                    )
+                    toDoList.length > 0  ?
+                            toDoList.map((list, i) => 
+                                <div key={i} className="task-item">
+                                    <span >{list.taskName} <p>Estatus: {list.taskComplete ? 'Completa' : 'Incompleta'}</p> </span>      
+                                    <button id='1'  onClick={(e) => handleClick(e, list)}>Detalle</button>                          
+                                    <button className='button-delete' id='2'  onClick={(e) => handleClick(e, list)}>Eliminar</button>
+                                    {!list.taskComplete ? <button className='button-complete'  onClick={() => handleClickCompleteTask(list)}>Completar</button>: <></>}
+                                </div>           
+                            )
+                        :
+                            <h1>Aun no hay tareas para mostrar</h1>
                 }
       
             </div>
