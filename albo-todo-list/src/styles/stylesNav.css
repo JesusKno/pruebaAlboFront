@@ -1,0 +1,17 @@
+
+.container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 4rem;
+    width: 100%;
+    margin-bottom: 60px;
+    background-color: rgb(55 67 170);
+
+}
+
+.title-nav{
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+    color: white;
+}

@@ -55,8 +55,8 @@
 }
 
 .submitButton{
-    display: block;
-    margin-left: auto;
+    position: relative;
+    margin-left: 15px;
     padding: 15px 30px;
     border: none;
     background-color: aqua;

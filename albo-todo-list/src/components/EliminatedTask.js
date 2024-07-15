@@ -39,20 +39,25 @@ export const EliminatedTask = ({list}) => {
      
                 <div className="registerForm">
                         <div className="form">
-                            <h1 className="title-form">¿Desea Eliminar esta tarea?</h1>
-                            <input type="submit" className="submitButton" onClick={handleEliminar} value="Eliminar"/>
-                            <input type="submit" className="submitButton" value="Cancelar"/>
-                            <Snackbar
-                                anchorOrigin={{vertical: 'bottom', horizontal:'center'}}
-                                open={open}
-                                autoHideDuration={1000}
-                      
-                             >
-                                <Alert variant="filled" severity="success" sx={{width: 'auto', fontSize: '14px'}}>
-                                    Tarea eliminada correctamente.
-                                </Alert>
-                            </Snackbar>
+                            <div className="inputContainerEliminated">
+                                    <h1 className="title-form">¿Desea Eliminar esta tarea?</h1>
+                                    
+                            </div>
+                            <div className="inputContainerEliminated">
+                                <input type="submit" className="submitButton" onClick={handleEliminar} value="Eliminar"/>
+                                <input type="submit" className="submitButton" onClick={closeModal} value="Cancelar"/>
+                            </div>
                         </div>
+                        <Snackbar
+                            anchorOrigin={{vertical: 'top', horizontal:'center'}}
+                            open={open}
+                            autoHideDuration={1000}
+                            
+                        >
+                            <Alert variant="filled" severity="success" sx={{width: 'auto', fontSize: '14px'}}>
+                                Tarea eliminada correctamente.
+                            </Alert>
+                        </Snackbar>
                 </div>
                
         

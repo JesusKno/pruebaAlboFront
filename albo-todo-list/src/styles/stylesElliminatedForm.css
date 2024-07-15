@@ -19,9 +19,11 @@
     margin-bottom: 20px;
 }
 
-.inputContainer {
+.inputContainerEliminated {
     position: relative;
-    height: 45px;
+    height: 85px;
     width: 90%;
     margin-bottom: 17px;
 }
+
+
