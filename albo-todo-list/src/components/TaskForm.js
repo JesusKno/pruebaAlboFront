@@ -56,38 +56,54 @@ export const TaskForm = ({list}) => {
         }
        
     }
+    const handleClose = () => {
+        closeModal()
+    }
     return(
         <>
      
                 <div className="registerForm">
                     <form className="form" onSubmit={handleSubmit(onSubmit)}>
-                        <h1 className="title-form">Estatus: {!list.taskComplete ? 'Incompleta': 'Completa'}</h1>
-                        <div className="inputContainer">
-                            <input type="text" className="inputText" defaultValue={list.taskName}  {...register('taskName', { required: true})}/>
-                            <label className="label">Nombre de la tarea</label>
-                        </div>
-                        {errors.taskName && <p className='error-save-data-task'> El campo de nombre de la tarea es obligatorio</p>}
-                        <div className="inputContainer">
-                            <input type="text" className="inputText" defaultValue={list.taskDescription}  {...register('taskDescription', { required: true})}/>
-                            <label className="label">Descripcion</label>
-                        </div>
-                        {errors.taskDescription && <p className='error-save-data-task'> La descripcion es obligatorio</p>}
-                        <div className="inputContainer">
-                            <input type="date" className="inputText" defaultValue={list.startDate} {...register('startDate', { required: true})}/>
-                            <label className="label">Fecha inicio</label>
-                        </div>
-                        {errors.startDate && <p className='error-save-data-task'> La fecha de inicio es obligatorio</p>}
-                        <div className="inputContainer">
-                            <input type="date" className="inputText" defaultValue={list.endDate} {...register('endDate',  { required: true})}/>
-                            <label className="label">Fecha final</label>
-                        </div>
-                        {errors.endDate && <p className='error-save-data-task'> La fecha de fin es obligatorio</p>}
-                        <div className="inputContainer">
-                            <input type="text" className="inputText" defaultValue={list.responsiblePersonEmail} {...register('responsiblePersonEmail',  { required: true})} />
-                            <label className="label">Responsable</label>
-                        </div>
-                        {errors.responsiblePersonEmail && <p className='error-save-data-task'> El correo debe de ser valido y es obligatorio</p>}
-                        <input type="submit" className="submitButton" value="Guardar"/>
+                        {!list.taskComplete ? 
+                             <>
+                                <h1 className="title-form">Estatus: {!list.taskComplete ? 'Incompleta' : 'Completa'}</h1><div className="inputContainer">
+                                <input type="text" className="inputText" defaultValue={list.taskName} {...register('taskName', { required: true })} />
+                                <label className="label">Nombre de la tarea</label>
+                                </div>
+                                {errors.taskName && <p className='error-save-data-task'> El campo de nombre de la tarea es obligatorio</p>}
+                                <div className="inputContainer">
+                                    <input type="text" className="inputText" defaultValue={list.taskDescription}  {...register('taskDescription', { required: true})}/>
+                                    <label className="label">Descripcion</label>
+                                </div>
+                                {errors.taskDescription && <p className='error-save-data-task'> La descripcion es obligatorio</p>}
+                                <div className="inputContainer">
+                                    <input type="date" className="inputText" defaultValue={list.startDate} {...register('startDate', { required: true})}/>
+                                    <label className="label">Fecha inicio</label>
+                                </div>
+                                {errors.startDate && <p className='error-save-data-task'> La fecha de inicio es obligatorio</p>}
+                                <div className="inputContainer">
+                                    <input type="date" className="inputText" defaultValue={list.endDate} {...register('endDate',  { required: true})}/>
+                                    <label className="label">Fecha final</label>
+                                </div>
+                                {errors.endDate && <p className='error-save-data-task'> La fecha de fin es obligatorio</p>}
+                                <div className="inputContainer">
+                                    <input type="text" className="inputText" defaultValue={list.responsiblePersonEmail} {...register('responsiblePersonEmail',  { required: true, pattern: { value: /^(([^<>()\\[\]\\.,;:\s@”]+(\.[^<>()\\[\]\\.,;:\s@”]+)*)|(“.+”))@((\[[0–9]{1,3}\.[0–9]{1,3}\.[0–9]{1,3}\.[0–9]{1,3}])|(([a-zA-Z\-0–9]+\.)+[a-zA-Z]{2,}))$/}})} />
+                                    <label className="label">Responsable</label>
+                                </div>
+                                {errors.responsiblePersonEmail && <p className='error-save-data-task'> El correo debe de ser valido y es obligatorio</p>}
+                                <input type="submit" className="submitButton" value="Guardar"/>
+                             </>
+                         :
+                            <>
+                                <h1>{list.taskName}</h1>
+                                <p>{list.taskDescription}</p>
+                                <p>Estatus: Completa</p>
+                                <p>Responsable: {list.responsiblePersonEmail}</p>
+                                <input type="button" className="submitButton" onClick={handleClose} value="Cerrar"/>
+
+                            </>
+                        }
+                       
                     </form>
                 </div>
                 <Snackbar

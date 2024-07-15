@@ -87,7 +87,7 @@ export const FormAddNewTask = () => {
                         </div>
                         {errors.endDate && <p className='error-save-data-task'> La fecha de fin es obligatorio</p>}
                         <div className="inputContainer">
-                            <input type="text" className="inputText"  {...register('responsiblePersonEmail', { required: true})} />
+                            <input type="text" className="inputText"  {...register('responsiblePersonEmail', { required: true, pattern: { value: /^(([^<>()\\[\]\\.,;:\s@”]+(\.[^<>()\\[\]\\.,;:\s@”]+)*)|(“.+”))@((\[[0–9]{1,3}\.[0–9]{1,3}\.[0–9]{1,3}\.[0–9]{1,3}])|(([a-zA-Z\-0–9]+\.)+[a-zA-Z]{2,}))$/}})} />
                             <label className="label">Responsable</label>
                         </div>
                         {errors.responsiblePersonEmail && <p className='error-save-data-task'> El correo debe de ser valido y es obligatorio</p>}
