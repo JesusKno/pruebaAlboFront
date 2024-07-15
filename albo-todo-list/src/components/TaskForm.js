@@ -92,6 +92,7 @@ export const TaskForm = ({list}) => {
                                 </div>
                                 {errors.responsiblePersonEmail && <p className='error-save-data-task'> El correo debe de ser valido y es obligatorio</p>}
                                 <input type="submit" className="submitButton" value="Guardar"/>
+                                <input type="button" className="submitButton" onClick={closeModal} value="Cancelar"/>
                              </>
                          :
                             <>

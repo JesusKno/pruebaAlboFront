@@ -37,12 +37,22 @@ export const FormAddNewTask = () => {
                     
                     fetch("http://localhost:3001/new/task", requestOptions)
                     .then(response => response.json())
-                    .catch(error => console.error('Error', error))
+                    .catch(error => {
+                        console.log(error);
+                        setOpen(true)
+                        setMessage('La tarea no puedo ser guardada')
+                        setAction('error')
+                        setTimeout(()=>{
+                            setOpen(false)
+                        }, 3000)
+
+                    })
                     .then(result => console.log(result))
                     
                    
             } catch (error) {
                 console.log('Error', error);
+               
             }finally{
                 setOpen(true)
                 setMessage('Tarea agregada')
@@ -92,6 +102,7 @@ export const FormAddNewTask = () => {
                         </div>
                         {errors.responsiblePersonEmail && <p className='error-save-data-task'> El correo debe de ser valido y es obligatorio</p>}
                         <input type="submit" className="submitButton" value="Guardar"/>
+                        <input type="button" onClick={closeModal} className="submitButton" value="Cancelar"/>
                     </form>
                 </div>
                 <Snackbar

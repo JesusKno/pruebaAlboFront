@@ -26,6 +26,14 @@ button:hover {
     background-color: #2980b9;
 }
 
+.button-delete:hover {
+    background-color: red;
+}
+
+.button-complete:hover {
+    background-color: green ;
+}
+
 .task-list {
     max-height: 300px; /* Altura máxima del contenedor */
     overflow-y: auto; /* Scroll vertical */
