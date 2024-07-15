@@ -5,39 +5,56 @@ import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
 import '../styles/styleTaskForm.css'
 export const TaskForm = ({list}) => {
-    const {register, handleSubmit} = useForm()
+    const {register, handleSubmit, formState:{errors}} = useForm()
     const [open, setOpen] = useState(false)
+    const [message, setMessage] = useState(null)
+    const [action, setAction] = useState(null)
     const closeModal = useTakModalChangeContext()
     console.log(list)
     const onSubmit = (data, e) =>{
-        const body = JSON.stringify(data)
-        console.log('Body desde el formulario para editar', body);
         const id = list._id
-        console.log('Revisa el id desde el formulario para editar', id);
-        const requestOptions = {
-            method: "PUT",
-            headers: {
-                'Content-Type': 'application/json;charset=utf-8'
-              },
-            body: JSON.stringify(data)
-        };
-        try {
-                
-                fetch(`http://localhost:3001/update/task/${id}`, requestOptions)
-                .then(response => response.json())
-                .catch(error => console.error('Error', error))
-                .then(result => console.log(result))
-                
-               
-        } catch (error) {
-            console.log('Error', error);
-        }finally{
+        const startDate = Date.parse(data.startDate)
+        const endDate = Date.parse(data.endDate )
+        if( endDate < startDate){
+
+            console.log('La fecha final no puede ser menor a la fecha inicial');
+
             setOpen(true)
+            setMessage('La fecha final no puede ser menor a la fecha inicial')
+            setAction('error')
             setTimeout(()=>{
-                closeModal()
-                e.target.reset()
-            }, 4000)
+                setOpen(false)
+            }, 3000)
+
+        }else{
+            const requestOptions = {
+                method: "PUT",
+                headers: {
+                    'Content-Type': 'application/json;charset=utf-8'
+                  },
+                body: JSON.stringify(data)
+            };
+            try {
+                    
+                    fetch(`http://localhost:3001/update/task/${id}`, requestOptions)
+                    .then(response => response.json())
+                    .catch(error => console.error('Error', error))
+                    .then(result => console.log(result))
+                    
+                   
+            } catch (error) {
+                console.log('Error', error);
+            }finally{
+                setOpen(true)
+                setMessage('Tarea actualizada')
+                setAction('success')
+                setTimeout(()=>{
+                    closeModal()
+                    e.target.reset()
+                }, 2000)
+            }
         }
+       
     }
     return(
         <>
@@ -49,36 +66,38 @@ export const TaskForm = ({list}) => {
                             <input type="text" className="inputText" defaultValue={list.taskName}  {...register('taskName', { required: true})}/>
                             <label className="label">Nombre de la tarea</label>
                         </div>
+                        {errors.taskName && <p className='error-save-data-task'> El campo de nombre de la tarea es obligatorio</p>}
                         <div className="inputContainer">
                             <input type="text" className="inputText" defaultValue={list.taskDescription}  {...register('taskDescription', { required: true})}/>
                             <label className="label">Descripcion</label>
                         </div>
+                        {errors.taskDescription && <p className='error-save-data-task'> La descripcion es obligatorio</p>}
                         <div className="inputContainer">
                             <input type="date" className="inputText" defaultValue={list.startDate} {...register('startDate', { required: true})}/>
                             <label className="label">Fecha inicio</label>
                         </div>
+                        {errors.startDate && <p className='error-save-data-task'> La fecha de inicio es obligatorio</p>}
                         <div className="inputContainer">
-                            <input type="date" className="inputText" defaultValue={list.endDate} {...register('endDate')}/>
+                            <input type="date" className="inputText" defaultValue={list.endDate} {...register('endDate',  { required: true})}/>
                             <label className="label">Fecha final</label>
                         </div>
+                        {errors.endDate && <p className='error-save-data-task'> La fecha de fin es obligatorio</p>}
                         <div className="inputContainer">
-                            <input type="text" className="inputText" defaultValue={list.responsiblePersonEmail} {...register('responsiblePersonEmail')} />
+                            <input type="text" className="inputText" defaultValue={list.responsiblePersonEmail} {...register('responsiblePersonEmail',  { required: true})} />
                             <label className="label">Responsable</label>
                         </div>
-                       
-                        <p>{!list.taskComplete ? 'Incompleta': 'Completa'}</p>
-
+                        {errors.responsiblePersonEmail && <p className='error-save-data-task'> El correo debe de ser valido y es obligatorio</p>}
                         <input type="submit" className="submitButton" value="Guardar"/>
                     </form>
                 </div>
                 <Snackbar
                     anchorOrigin={{vertical: 'top', horizontal:'center'}}
                     open={open}
-                    autoHideDuration={1000}
+                   
                       
                 >
-                    <Alert variant="filled" severity="success" sx={{width: 'auto', fontSize: '14px'}}>
-                        Tarea modificada correctamente.
+                    <Alert variant="filled" severity={action} sx={{width: 'auto', fontSize: '14px'}}>
+                        {message}
                     </Alert>
                 </Snackbar>
                 
