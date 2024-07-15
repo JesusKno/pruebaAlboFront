@@ -1,36 +1,38 @@
 import React, {useState} from 'react'
-import {useForm} from "react-hook-form"
+import { useTakModalChangeContext } from '../TaskModalProvider'
+import Snackbar from '@mui/material/Snackbar';
+import Alert from '@mui/material/Alert';
 import '../styles/stylesElliminatedForm.css'
-import Button from '@mui/material/Button';
+
 export const EliminatedTask = ({list}) => {
-    const {register, handleSubmit} = useForm()
-    const [loading, setLoading] = useState(false)
-    const onSubmit = (data, e) =>{
-        const body = JSON.stringify(data)
-        console.log('Body desde el formulario para editar', body);
+    const [open, setOpen] = useState(false)
+    const closeModal = useTakModalChangeContext()
+    const handleEliminar = ()=>{
+
         const id = list._id
-        console.log('Revisa el id desde el formulario para editar', id);
         const requestOptions = {
-            method: "POST",
+            method: "DELETE",
             headers: {
                 'Content-Type': 'application/json;charset=utf-8'
               },
-            body: JSON.stringify(data)
         };
-     /*    try {
-                setLoading(true)
-                fetch("http://localhost:3001/admin/nuevo/producto", requestOptions)
-                .then(response => response.json())
-                .catch(error => console.error('Error', error))
-                .then(result => console.log(result))
-                
-               
+        try {
+            fetch(`http://localhost:3001/delete/task/${id}`, requestOptions)
+            .then(response => response.json())
+            .catch(error => console.error('Error', error))
+            .then(result => console.log(result))
+            
+           
         } catch (error) {
-            console.log('Error', error);
+        console.log('Error', error);
         }finally{
-            setLoading(false)
-            e.target.reset()
-        } */
+            setOpen(true)
+            setTimeout(()=>{
+                closeModal()
+            }, 4000)
+           
+        }
+
     }
     return(
         <>
@@ -38,9 +40,21 @@ export const EliminatedTask = ({list}) => {
                 <div className="registerForm">
                         <div className="form">
                             <h1 className="title-form">¿Desea Eliminar esta tarea?</h1>
-                            <input type="submit" className="submitButton" value="Registrar"/>
+                            <input type="submit" className="submitButton" onClick={handleEliminar} value="Eliminar"/>
+                            <input type="submit" className="submitButton" value="Cancelar"/>
+                            <Snackbar
+                                anchorOrigin={{vertical: 'bottom', horizontal:'center'}}
+                                open={open}
+                                autoHideDuration={1000}
+                      
+                             >
+                                <Alert variant="filled" severity="success" sx={{width: 'auto', fontSize: '14px'}}>
+                                    Tarea eliminada correctamente.
+                                </Alert>
+                            </Snackbar>
                         </div>
                 </div>
+               
         
       
     </>
