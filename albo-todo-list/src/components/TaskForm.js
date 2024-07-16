@@ -10,15 +10,11 @@ export const TaskForm = ({list}) => {
     const [message, setMessage] = useState(null)
     const [action, setAction] = useState(null)
     const closeModal = useTakModalChangeContext()
-    console.log(list)
     const onSubmit = (data, e) =>{
         const id = list._id
         const startDate = Date.parse(data.startDate)
         const endDate = Date.parse(data.endDate )
         if( endDate < startDate){
-
-            console.log('La fecha final no puede ser menor a la fecha inicial');
-
             setOpen(true)
             setMessage('La fecha final no puede ser menor a la fecha inicial')
             setAction('error')
@@ -56,9 +52,7 @@ export const TaskForm = ({list}) => {
         }
        
     }
-    const handleClose = () => {
-        closeModal()
-    }
+
     return(
         <>
      
@@ -100,7 +94,7 @@ export const TaskForm = ({list}) => {
                                 <p>{list.taskDescription}</p>
                                 <p>Estatus: Completa</p>
                                 <p>Responsable: {list.responsiblePersonEmail}</p>
-                                <input type="button" className="submitButton" onClick={handleClose} value="Cerrar"/>
+                                <input type="button" className="submitButton" onClick={closeModal} value="Cerrar"/>
 
                             </>
                         }

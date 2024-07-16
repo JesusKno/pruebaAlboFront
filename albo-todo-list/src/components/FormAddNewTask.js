@@ -14,9 +14,6 @@ export const FormAddNewTask = () => {
         const startDate = Date.parse(data.startDate)
         const endDate = Date.parse(data.endDate )
         if( endDate < startDate){
-
-            console.log('La fecha final no puede ser menor a la fecha inicial');
-
             setOpen(true)
             setMessage('La fecha final no puede ser menor a la fecha inicial')
             setAction('error')

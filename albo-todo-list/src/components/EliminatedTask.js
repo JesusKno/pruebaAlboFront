@@ -51,7 +51,7 @@ export const EliminatedTask = ({list}) => {
                         <Snackbar
                             anchorOrigin={{vertical: 'top', horizontal:'center'}}
                             open={open}
-                            autoHideDuration={1000}
+                           
                             
                         >
                             <Alert variant="filled" severity="success" sx={{width: 'auto', fontSize: '14px'}}>

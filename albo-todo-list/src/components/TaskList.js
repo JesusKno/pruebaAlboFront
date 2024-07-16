@@ -24,7 +24,6 @@ export const TaskList = () => {
     const handleOpenModal =  useTakModalChangeContext()
     const handleClick = (e, data) =>{
 
-        console.log('evento del boton', e.target)
         const id = e.target.id
         if(id !== '3'){
             setListData(data)
@@ -35,7 +34,6 @@ export const TaskList = () => {
     const handleClickCompleteTask = (list) =>{
 
         const id = list._id
-        console.log('revisa el id desde actualiazar estatus', id)
         const requestOptions = {
             method: "PUT",
             headers: {
@@ -111,7 +109,6 @@ export const TaskList = () => {
         <Snackbar
                 anchorOrigin={{vertical: 'top', horizontal:'center'}}
                 open={open}
-                autoHideDuration={1000}
                             
         >
                 <Alert variant="filled" severity="success" sx={{width: 'auto', fontSize: '14px'}}>
